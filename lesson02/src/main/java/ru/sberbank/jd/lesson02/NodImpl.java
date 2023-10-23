@@ -4,13 +4,6 @@ package ru.sberbank.jd.lesson02;
  * Класс для реализации интерфейса Nod - определения наибольшего общего делителя двух целых чисел.
  */
 public class NodImpl implements Nod {
-    public static void main(String[] args) {
-        Nod nod = new NodImpl();
-        System.out.println(nod.calculate(0, 0));
-    }
-
-    private int first;
-    private int second;
 
     /**
      * Вычисляет наибольший делитель у 2 значений с помощью алгоритма Евклида.
@@ -25,12 +18,10 @@ public class NodImpl implements Nod {
             return Integer.MAX_VALUE;
         } else if (first < 0 || second < 0) {
             throw new ArithmeticException("Значение не должно быть отрицательным!");
-        } else if (first > second) {
-            this.first = first;
-            this.second = second;
-        } else {
-            this.first = second;
-            this.second = first;
+        } else if (first < second) {
+            int temp = first;
+            first = second;
+            second = temp;
         }
         while (second != 0) {
             int temp = second;

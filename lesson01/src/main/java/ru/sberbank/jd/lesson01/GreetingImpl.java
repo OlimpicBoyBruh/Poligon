@@ -7,10 +7,6 @@ import java.util.Collection;
  * Получение инфомарции о студенте.
  */
 public class GreetingImpl {
-    public static void main(String[] args) {
-        GreetingImpl greeting = new GreetingImpl();
-        System.out.println(greeting.toString());
-    }
 
     /**
      * Получение имени.

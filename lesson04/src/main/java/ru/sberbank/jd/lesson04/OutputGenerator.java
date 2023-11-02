@@ -45,7 +45,7 @@ public class OutputGenerator {
     /**
      * Считывает входные данные и обновляет значение updateWords и updateLine.
      */
-    public void write() {
+    public boolean write() {
         String line;
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -56,6 +56,6 @@ public class OutputGenerator {
         } catch (NoSuchElementException ex) {
             ex.getMessage();
         }
-
+        return true;
     }
 }

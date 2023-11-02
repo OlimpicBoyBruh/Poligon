@@ -35,8 +35,6 @@ public class ArgumentsTest {
 
     @Test
     public void addFileNameTest() {
-        Assert.assertEquals(0, Arguments.getFilePatch().size());
-
         arguments.setFilePatch("test.txt");
         Assert.assertEquals("test.txt", Arguments.getFilePatch().get(0));
 

@@ -1,6 +1,8 @@
 package ru.sberbank.jd.lesson04;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -23,12 +25,16 @@ public class OutputResult extends Arguments {
      * @param nameFile получает имя файла.
      */
     public void read(String nameFile) {
-        try (Scanner scanner = new Scanner(nameFile)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                updateWords(line);
-                updateLine();
-            }
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new File(nameFile));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("No found file!");
+        }
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            updateWords(line);
+            updateLine();
         }
     }
 
@@ -67,4 +73,13 @@ public class OutputResult extends Arguments {
     public void updateWords(String str) {
         words += str.replaceAll(" ", "").length();
     }
+
+    /**
+     * Метод сбрасывает значение.
+     */
+    public void reload() {
+        lines = 0;
+        words = 0;
+    }
+
 }

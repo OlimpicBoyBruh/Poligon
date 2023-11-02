@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.Mockito.when;
-
 public class OutputGeneratorTest {
     private OutputGenerator generator;
     private OutputResult result;
@@ -15,18 +13,50 @@ public class OutputGeneratorTest {
     @Before
     public void init() {
         generator = new OutputGenerator();
-        result = Mockito.mock(OutputResult.class);
-        arguments = Mockito.mock(Arguments.class);
     }
 
-   /* @Test
-    public void emptyArgumentsTest() {
-        when(arguments.isVersion()).thenReturn(true);
 
-        OutputResult actualResult = OutputGenerator.generate(arguments);
+    @Test
+    public void generateDefaultTest() {
+        generator = Mockito.mock(OutputGenerator.class);
+        Mockito.when(generator.write()).thenReturn(true);
+        result = generator.generate(new Arguments());
+        Assert.assertNull(generator.generate(new Arguments()));
+    }
 
-        Mockito.verify(result).version();
-        Assert.assertEquals(result, actualResult);
+    @Test
+    public void argumentVersionTest() {
+        ArgumentParser parser = new ArgumentParser();
+        String[] str = {"--version", "-l", "-w", "-wl", "-lw", "test.txt"};
+        arguments = parser.parse(str);
+        result = generator.generate(arguments);
+        Assert.assertEquals(true, result.isVersion());
+        Assert.assertEquals(false, result.isHelp());
+        Assert.assertEquals(false, result.isCountWords());
+        Assert.assertEquals(false, result.isCountLines());
+    }
 
-    }*/
+    @Test
+    public void argumentsHelpTest() {
+        ArgumentParser parser = new ArgumentParser();
+        String[] str = {"--help", "-l", "-w", "-wl", "-lw", "test.txt"};
+        arguments = parser.parse(str);
+        result = generator.generate(arguments);
+        Assert.assertEquals(false, result.isVersion());
+        Assert.assertEquals(true, result.isHelp());
+        Assert.assertEquals(false, result.isCountWords());
+        Assert.assertEquals(false, result.isCountLines());
+    }
+
+    @Test
+    public void argumentWLTest() {
+        ArgumentParser parser = new ArgumentParser();
+        String[] str = {"-l", "-w", "-wl", "-lw", "test.txt"};
+        arguments = parser.parse(str);
+        result = generator.generate(arguments);
+        Assert.assertEquals(false, result.isVersion());
+        Assert.assertEquals(false, result.isHelp());
+        Assert.assertEquals(true, result.isCountWords());
+        Assert.assertEquals(true, result.isCountLines());
+    }
 }

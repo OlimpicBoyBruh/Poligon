@@ -2,6 +2,7 @@ package ru.sberbank.jd.lesson01;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.sberbank.jd.lesson01.GreetingImpl;
 
 import java.util.ArrayList;
 

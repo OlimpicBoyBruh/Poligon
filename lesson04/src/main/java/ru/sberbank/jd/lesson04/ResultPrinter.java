@@ -19,71 +19,52 @@ public class ResultPrinter {
     public void output(OutputResult result) {
         this.result = result;
         if (result.isVersion()) {
-            version();
+            System.out.println(version());
             return;
         } else if (result.isHelp()) {
-            help();
+            System.out.println(help());
             return;
         }
         if (Arguments.getFilePatch().isEmpty()) {
             if (result.isCountWords()) {
-                System.out.print("\t" + words());
+                System.out.print("\t" + result.getWords());
             }
             if (result.isCountLines()) {
-                System.out.print("\t" + lines());
+                System.out.print("\t" + result.getLines());
             }
         } else {
             int totalW = 0;
             int totalL = 0;
             for (int i = 0; i < Arguments.getFilePatch().size(); i++) {
                 result.read(Arguments.getFilePatch().get(i));
-                System.out.print("\t" + words());
-                System.out.print("\t" + lines());
-                totalL += lines();
-                totalW += words();
+                System.out.print("\t" + result.getWords());
+                System.out.print("\t" + result.getLines());
+                totalL += result.getLines();
+                totalW += result.getWords();
                 System.out.print("\t" + Arguments.getFilePatch().get(i));
                 System.out.println();
+                result.reload();
             }
             System.out.print("\t" + totalW + "\t" + totalL + "\tTotal");
         }
-
-
     }
 
     /**
      * Метод печатает информацию значения help.
      */
-    public void help() {
-        System.out.println("\n"
+    public String help() {
+        return "\n"
                 + "Программа частично дублирующая функционал Linux-программы `wc`\n"
                 + "  -l           количество строк.\n"
                 + "  -w           количество слов.\n"
                 + "  --help       Справка по использованию программы.\n"
-                + "  --version    Версия программы, фамилия разработчика.\n");
+                + "  --version    Версия программы, фамилия разработчика.\n";
     }
 
     /**
      * Метод печатает информацию о версии.
      */
-    public void version() {
-        System.out.println(" WordCount version 2.0, by Meschcheryakov");
-    }
-
-    /**
-     * Метод возвращает информацию lines.
-     *
-     * @return кол-во строк.
-     */
-    public int lines() {
-        return result.getLines();
-    }
-
-    /**
-     * Метод возвращает информацию words.
-     *
-     * @return кол-во букв.
-     */
-    public int words() {
-        return result.getWords();
+    public String version() {
+        return "WordCount version 2.0, by Meschcheryakov";
     }
 }

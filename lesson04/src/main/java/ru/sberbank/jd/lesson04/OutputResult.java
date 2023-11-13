@@ -108,5 +108,4 @@ public class OutputResult extends Arguments {
         }
         return false;
     }
-
 }

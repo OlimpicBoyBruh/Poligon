@@ -1,6 +1,5 @@
 package ru.sberbank.jd.lesson04;
 
-
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 

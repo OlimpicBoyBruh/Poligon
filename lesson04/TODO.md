@@ -1,6 +1,7 @@
 # Lesson 04 Input. Output. Exceptions.
 
-с.
+
+Написать программу частично дублирующую функционал Linux-программы `wc`.
 [man wc](https://www.opennet.ru/man.shtml?topic=wc&category=1&russian=2)
 
 Возможные параметры:

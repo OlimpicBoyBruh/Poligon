@@ -44,5 +44,4 @@ public class ArgumentParser {
         }
         return arguments;
     }
-
 }

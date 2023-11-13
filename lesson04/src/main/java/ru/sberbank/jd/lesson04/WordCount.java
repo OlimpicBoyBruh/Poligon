@@ -4,6 +4,11 @@ package ru.sberbank.jd.lesson04;
  * Консольное приложение дублирующее команду wc.
  */
 public class WordCount {
+    /**
+     * Метод для создания и вызова методов объектов.
+     *
+     * @param args принимает массив строк.
+     */
 
     public static void main(String[] args) {
         ArgumentParser parser = new ArgumentParser();

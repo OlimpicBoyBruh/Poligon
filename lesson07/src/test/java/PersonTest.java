@@ -42,23 +42,21 @@ public class PersonTest {
         Assert.assertFalse(person2.compareTo(person3) < 0);
         Assert.assertFalse(person2.compareTo(person4) < 0);
         Assert.assertFalse(person3.compareTo(person5) > 0);
-
-
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void cityExceptionTest() {
-        Person person1 = new Person("Artem", null, 5);
+        new Person("Artem", null, 5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nameExceptionTest() {
-        Person person1 = new Person(null, "Voronezh", 5);
+        new Person(null, "Voronezh", 5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void ageExceptionTest() {
-        Person person1 = new Person("Artem", "Voronezh", -1);
+        new Person("Artem", "Voronezh", -1);
     }
 
     @Test
@@ -70,22 +68,21 @@ public class PersonTest {
         Person person5 = new Person("Lera", "Orel", 22);
 
         Assert.assertEquals(person1, person3);
-        Assert.assertNotEquals(person2, person3);
-        Assert.assertNotEquals(person4, person5);
-        Assert.assertNotEquals(person3, person5);
-
         Assert.assertEquals(person1.hashCode(), person3.hashCode());
+
+        Assert.assertNotEquals(person2, person3);
         Assert.assertNotEquals(person2.hashCode(), person3.hashCode());
+
+        Assert.assertNotEquals(person4, person5);
+        Assert.assertNotEquals(person4.hashCode(), person5.hashCode());
+
+        Assert.assertNotEquals(person3, person5);
+        Assert.assertNotEquals(person3.hashCode(), person5.hashCode());
 
         person1 = person2;
 
         Assert.assertEquals(person1, person2);
         Assert.assertEquals(person1.hashCode(), person2.hashCode());
-        Assert.assertNotEquals(person4.hashCode(), person5.hashCode());
-        Assert.assertNotEquals(person3.hashCode(), person5.hashCode());
-
-
     }
-
 
 }

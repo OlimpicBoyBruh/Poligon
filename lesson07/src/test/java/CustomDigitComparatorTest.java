@@ -27,11 +27,7 @@ public class CustomDigitComparatorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void ComparatorExceptionTest() {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(null);
-        list.sort(comparator);
+        comparator.compare(1, null);
     }
 }
 

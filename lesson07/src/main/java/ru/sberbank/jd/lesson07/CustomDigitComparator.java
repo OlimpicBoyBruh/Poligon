@@ -18,9 +18,11 @@ public class CustomDigitComparator implements Comparator<Integer> {
         if (lhs == null || rhs == null) {
             throw new IllegalArgumentException();
         }
-        if ((lhs % 2 == rhs % 2) || (lhs % 2 != 0) && (rhs % 2 != 0)) {
+        boolean isFirstEven = lhs % 2 == 0;
+        boolean isSecondEven = rhs % 2 == 0;
+        if (isFirstEven == isSecondEven) {
             return 0;
-        } else if (lhs % 2 == 0 && rhs % 2 != 0) {
+        } else if (isFirstEven) {
             return -1;
         } else {
             return 1;

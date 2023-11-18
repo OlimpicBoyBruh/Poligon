@@ -35,20 +35,6 @@ public class OutputResultTest {
         Assert.assertEquals(1, result.getLines());
         Assert.assertEquals(0, result.getWords());
     }
-
-
-    @Test
-    public void readExceptionTest() {
-
-        try {
-            result.read("");
-            Assert.fail();
-        } catch (RuntimeException e) {
-            System.out.println("Work");
-        }
-
-    }
-
     @Test
     public void searchKeyTest() {
         Assert.assertFalse(result.searchArguments());

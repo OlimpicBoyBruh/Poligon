@@ -1,8 +1,9 @@
 package ru.sberbank.jd.lesson04;
 
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Класс записывает входные данные и передает их OutputResult для дальнейшего анализа.
@@ -19,7 +20,6 @@ public class OutputGenerator {
      * @param arguments Первое значение.
      * @return Объект с готовыми данными.
      */
-
     public OutputResult generate(Arguments arguments) {
         if (result.searchArguments()) {
             return result;
@@ -53,15 +53,18 @@ public class OutputGenerator {
      * Считывает входные данные и обновляет значение updateWords и updateLine.
      */
     public boolean write() {
-
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
-                scanner.nextLine();
-                result.updateWords();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+        int wordCount = 0;
+        try {
+            while ((line = reader.readLine()) != null) {
                 result.updateLine();
+                String[] words = line.trim().split(" ");
+                wordCount += words.length;
             }
-        } catch (NoSuchElementException ex) {
-            ex.getMessage();
+            result.setWords(wordCount);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }

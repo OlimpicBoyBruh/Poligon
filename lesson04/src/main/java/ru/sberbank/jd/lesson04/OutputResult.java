@@ -12,7 +12,7 @@ import java.util.Scanner;
  * Класс для хранения итоговых данных, который будут использоваться для формирования результата.
  * Наследуется от Arguments.
  */
-public class OutputResult extends Arguments {
+public class OutputResult  extends Arguments  {
     /**
      * Поле для хранения кол-ва строк.
      */
@@ -31,25 +31,24 @@ public class OutputResult extends Arguments {
         Scanner scanner;
         try {
             scanner = new Scanner(new File(nameFile));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("No found file!");
-        }
-        if (isCountWords()) {
-            while (scanner.hasNext()) {
-                scanner.next();
-                updateWords();
-            }
-        }
-        if (isCountLines()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(nameFile))) {
-                while (reader.readLine() != null) {
-                    updateLine();
+            if (isCountWords()) {
+                while (scanner.hasNext()) {
+                    scanner.next();
+                    updateWords();
                 }
-
-            } catch (IOException e) {
-                e.getStackTrace();
             }
-
+            if (isCountLines()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(nameFile))) {
+                    while (reader.readLine() != null) {
+                        updateLine();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+            System.exit(0);
         }
     }
 
@@ -85,6 +84,15 @@ public class OutputResult extends Arguments {
 
     public void updateWords() {
         words++;
+    }
+
+    /**
+     * Метод обновляет значение words на кол-во слов.
+     *
+     * @param num число слов.
+     */
+    public void setWords(int num) {
+        words += num;
     }
 
     /**

@@ -30,22 +30,23 @@ public class ResultPrinter {
             return;
         }
         if (Arguments.getFilePatch().isEmpty()) {
-            if (result.isCountWords()) {
-                System.out.print("\t" + result.getWords());
-            }
             if (result.isCountLines()) {
                 System.out.print("\t" + result.getLines());
             }
+            if (result.isCountWords()) {
+                System.out.print("\t" + result.getWords());
+            }
+
         } else {
             int totalW = 0;
             int totalL = 0;
             for (int i = 0; i < Arguments.getFilePatch().size(); i++) {
                 result.read(Arguments.getFilePatch().get(i));
-                if (result.isCountWords()) {
-                    System.out.print("\t" + result.getWords());
-                }
                 if (result.isCountLines()) {
                     System.out.print("\t" + result.getLines());
+                }
+                if (result.isCountWords()) {
+                    System.out.print("\t" + result.getWords());
                 }
                 totalL += result.getLines();
                 totalW += result.getWords();
@@ -54,11 +55,11 @@ public class ResultPrinter {
                 result.reload();
             }
             if (Arguments.getFilePatch().size() > 1) {
-                if (result.isCountWords()) {
-                    System.out.print("\t" + totalW);
-                }
                 if (result.isCountLines()) {
                     System.out.print("\t" + totalL);
+                }
+                if (result.isCountWords()) {
+                    System.out.print("\t" + totalW);
                 }
                 System.out.print("\tTotal\n");
             }

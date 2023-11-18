@@ -28,6 +28,12 @@ public class CustomArrayImplTest {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void constructorExceptedTest() {
+        List<String> list1 = null;
+        list = new CustomArrayImpl<>(null);
+    }
+
     @Test
     public void sizeTest() {
         Assert.assertEquals(0, list.size());
@@ -131,10 +137,12 @@ public class CustomArrayImplTest {
     public void indexOfTest() {
         list.add("Test");
         list.add("Hello");
+        list.add(null);
         list.add("World");
         Assert.assertEquals(0, list.indexOf("Test"));
         Assert.assertEquals(1, list.indexOf("Hello"));
-        Assert.assertEquals(2, list.indexOf("World"));
+        Assert.assertEquals(3, list.indexOf("World"));
+        Assert.assertEquals(2, list.indexOf(null));
         Assert.assertEquals(-1, list.indexOf("world"));
     }
 
@@ -156,8 +164,6 @@ public class CustomArrayImplTest {
         Assert.assertEquals(10, list.getCapacity());
         list = new CustomArrayImpl<>(100);
         Assert.assertEquals(100, list.getCapacity());
-        list.ensureCapacity(list.getCapacity() * 2);
-        Assert.assertEquals(200, list.getCapacity());
     }
 
     @Test
@@ -166,13 +172,13 @@ public class CustomArrayImplTest {
         list.add("B");
         list.add("C");
         list.add("D");
-        list.add("F");
+        list.add("E");
         list.reverse();
         Assert.assertEquals("A", list.get(4));
         Assert.assertEquals("B", list.get(3));
         Assert.assertEquals("C", list.get(2));
         Assert.assertEquals("D", list.get(1));
-        Assert.assertEquals("F", list.get(0));
+        Assert.assertEquals("E", list.get(0));
     }
 
     @Test

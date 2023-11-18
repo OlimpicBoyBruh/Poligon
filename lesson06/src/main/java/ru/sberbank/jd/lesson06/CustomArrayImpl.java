@@ -2,6 +2,7 @@ package ru.sberbank.jd.lesson06;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Class is a dynamic array and implements the CustomArray interface.
@@ -29,7 +30,6 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      *
      * @param capacity size array
      */
-
     public CustomArrayImpl(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException();
@@ -45,24 +45,24 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      *
      * @param c collection
      */
-
     public CustomArrayImpl(Collection<? extends T> c) {
+        if (c == null) {
+            throw new IllegalArgumentException();
+        }
         item = c.toArray();
         size = c.size();
     }
 
     /**
-     * Returns the size.
+     * @return the size.
      */
-
     public int size() {
         return size;
     }
 
     /**
-     * Checks if it is empty.
+     * @return Checks if it is empty.
      */
-
     public boolean isEmpty() {
         return size == 0;
     }
@@ -71,29 +71,22 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Add single item.
      *
      * @param item Object T
+     * @return boolean
      */
-
     public boolean add(T item) {
-        try {
-            this.item[size] = item;
-            size++;
-            return true;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ensureCapacity(this.item.length * 2);
-            this.item[size] = item;
-            size++;
-            return true;
-        }
-
+        ensureCapacity(this.item.length * 2);
+        this.item[size] = item;
+        size++;
+        return true;
     }
 
     /**
      * Add all items.
      *
      * @param items array Object T
+     * @return boolean
      * @throws IllegalArgumentException if parameter items is null
      */
-
     public boolean addAll(T[] items) {
         if (items == null) {
             throw new IllegalArgumentException();
@@ -110,9 +103,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Add all items.
      *
      * @param items collection
+     * @return boolean
      * @throws IllegalArgumentException if parameter items is null
      */
-
     public boolean addAll(Collection<T> items) {
         addAll((T[]) items.toArray());
         return true;
@@ -123,10 +116,10 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      *
      * @param index - index
      * @param items - items for insert
+     * @return boolean
      * @throws ArrayIndexOutOfBoundsException if index is out of bounds
      * @throws IllegalArgumentException       if parameter items is null
      */
-
     public boolean addAll(int index, T[] items) {
         if (items == null) {
             throw new IllegalArgumentException();
@@ -146,9 +139,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Get item by index.
      *
      * @param index - index
+     * @return an object by index
      * @throws ArrayIndexOutOfBoundsException if index is out of bounds
      */
-
     public T get(int index) {
         if (index >= size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
@@ -164,7 +157,6 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @return old value
      * @throws ArrayIndexOutOfBoundsException if index is out of bounds
      */
-
     public T set(int index, T item) {
         if (index >= size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
@@ -204,6 +196,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Remove item by value. Remove first item occurrence.
      *
      * @param item - item
+     * @return boolean depending on the removal result
      * @return true if item was removed
      */
     public boolean remove(T item) {
@@ -233,7 +226,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Checks if item exists.
      *
      * @param item - item
-     * @return true or false
+     * @return true or false depending on the result of the check
      */
     public boolean contains(T item) {
         for (Object o : this.item) {
@@ -250,10 +243,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @param item - item
      * @return index of element or -1 of list doesn't contain element
      */
-
     public int indexOf(T item) {
         for (int index = 0; index < size; index++) {
-            if (item.equals(this.item[index])) {
+            if (Objects.equals(this.item[index], item)) {
                 return index;
             }
         }
@@ -265,19 +257,24 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      *
      * @param newElementsCount - new elements count
      */
-
     public void ensureCapacity(int newElementsCount) {
-        Object[] tempItem = new Object[newElementsCount];
-        if (size >= 0) {
-            System.arraycopy(item, 0, tempItem, 0, size);
+        if (newElementsCount < 0) {
+            throw new IllegalArgumentException();
         }
-        item = tempItem;
+        if (size == item.length) {
+            Object[] tempItem = new Object[newElementsCount];
+            if (size >= 0) {
+                System.arraycopy(item, 0, tempItem, 0, size);
+            }
+            item = tempItem;
+        }
     }
 
     /**
      * Get current capacity.
+     *
+     * @return int capacity
      */
-
     public int getCapacity() {
         return item.length;
     }
@@ -285,16 +282,24 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
     /**
      * Reverse list.
      */
-
     public void reverse() {
-        Object[] temp = new Object[item.length];
-        int index = size - 1;
-        for (int i = 0; i < size; i++, index--) {
-            temp[i] = item[index];
+        int tempSize = size;
+        for (int index = 0; index < size / 2; index++) {
+            T temp = (T) item[tempSize - 1];
+            item[tempSize - 1] = item[index];
+            item[index] = temp;
+            tempSize--;
         }
-        this.item = temp;
     }
 
+    /**
+     * In general,
+     * the toString method returns a string that "textually represents" this object.
+     * The result should be a concise but informative representation that is easy
+     * for a person to read.
+     *
+     * @return Returns a string representation of the object.
+     */
     @Override
     public String toString() {
         Object[] tempArray = toArray();
@@ -304,7 +309,6 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
     /**
      * Get copy of current array.
      */
-
     public Object[] toArray() {
         return Arrays.copyOf(item, size);
     }

@@ -9,14 +9,20 @@ import java.io.IOException;
  * Класс для записи объекта в файл форматом XML.
  */
 public class SerializationXml<T> implements SerializationObject<T> {
+
+    private XmlMapper mapper;
+
+    public SerializationXml() {
+        mapper = new XmlMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
     /**
      * Метод для записи объекта в файл форматом XML.
      *
      * @param ob записываемый объект.
      */
     public void serialization(T ob) {
-        XmlMapper mapper = new XmlMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         File file = new File("lesson10/src/main/resources/output/artist_by_country.xml");
         try {
             mapper.writeValue(file, ob);

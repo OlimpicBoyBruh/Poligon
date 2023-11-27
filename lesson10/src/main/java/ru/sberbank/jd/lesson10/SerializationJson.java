@@ -10,22 +10,24 @@ import java.io.IOException;
  */
 public class SerializationJson<T> implements SerializationObject<T> {
 
+    private ObjectMapper objectMapper;
+
+    public SerializationJson() {
+        objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
     /**
      * Метод для записи объекта в файл.
      *
      * @param ob записываемый объект.
      */
     public void serialization(T ob) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         File file = new File("lesson10/src/main/resources/output/artist_by_country.json");
         try {
             objectMapper.writeValue(file, ob);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
 }

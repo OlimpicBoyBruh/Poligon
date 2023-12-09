@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.UUID;
 import ru.sberbank.jd.lesson12.model.Student;
 
@@ -20,14 +21,6 @@ public class StudentRepository implements StudentsRepositoryCrud {
      * Поле для подключения к базе данных.
      */
     private final Connection connection;
-    /**
-     * Поле выполнения SQL-запроса.
-     */
-    private PreparedStatement preparedStatement;
-    /**
-     * Поле для получения результата SELECT SQL-запроса.
-     */
-    private ResultSet resultSet;
 
     public StudentRepository(Connection connection) {
         this.connection = connection;
@@ -51,7 +44,7 @@ public class StudentRepository implements StudentsRepositoryCrud {
             try {
                 String command = "INSERT INTO Students "
                         + "(id, first_name, last_name, birth_date, is_graduated) VALUES (?, ?, ?, ?, ?)";
-                preparedStatement = connection.prepareStatement(command);
+                PreparedStatement preparedStatement = connection.prepareStatement(command);
 
                 preparedStatement.setString(1, student.getId().toString());
                 preparedStatement.setString(2, student.getFirstName());
@@ -84,9 +77,9 @@ public class StudentRepository implements StudentsRepositoryCrud {
         Student student = null;
         String sql = "SELECT * FROM students WHERE id = ?";
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id.toString());
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 String firstName = resultSet.getString(2);
@@ -116,7 +109,7 @@ public class StudentRepository implements StudentsRepositoryCrud {
         try {
             Statement statement = connection.createStatement();
             String sql = "SELECT * FROM students";
-            resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
                 UUID id = UUID.fromString(resultSet.getString(1));
@@ -145,7 +138,7 @@ public class StudentRepository implements StudentsRepositoryCrud {
         String sql = "UPDATE students SET first_name = ? , last_name = ? , birth_date = ? "
                 + " , is_graduated = ?  WHERE id = ? ";
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, student.getFirstName());
             preparedStatement.setString(2, student.getLastName());
             preparedStatement.setDate(3, new java.sql.Date(student.getBirthDate().getTime()));
@@ -171,17 +164,17 @@ public class StudentRepository implements StudentsRepositoryCrud {
             throw new IllegalArgumentException();
         }
         int rowsAffected = 0;
-        String sql = "DELETE FROM students WHERE id = ?";
-        for (UUID id : idList) {
-            try {
-                preparedStatement = connection.prepareStatement(sql);
-
-                preparedStatement.setString(1, id.toString());
-                rowsAffected += preparedStatement.executeUpdate();
-
-            } catch (SQLException e) {
-                System.out.println("UUID: " + id + " not found");
+        StringJoiner joiner = new StringJoiner(",", "(", ")");
+        try (Statement statement = connection.createStatement()) {
+            for (UUID id : idList) {
+                joiner.add("'" + id.toString() + "'");
             }
+            String sql = "DELETE FROM students WHERE id IN " + joiner;
+            System.out.println(sql);
+            rowsAffected += statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
         }
         return rowsAffected;
     }

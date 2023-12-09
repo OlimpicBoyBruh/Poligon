@@ -40,7 +40,7 @@ public interface StudentsRepositoryCrud {
      * @param student измененная запись
      * @return количество обновленных записей
      */
-    int  update(Student student);
+    int update(Student student);
 
     /**
      * Удаление указанных записей по id.

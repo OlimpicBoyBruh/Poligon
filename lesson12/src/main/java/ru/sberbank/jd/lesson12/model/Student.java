@@ -8,7 +8,6 @@ import java.util.UUID;
  * Класс, отражающий структуру хранимых в таблице полей.
  */
 public class Student {
-
     /**
      * Первичный ключ.
      * Рекомендуется генерировать его только внутри StudentsRepositoryCRUD.create(),
@@ -23,12 +22,10 @@ public class Student {
     /**
      * Фамилия студента.
      */
-
     private String lastName;
     /**
      * Дата рождения студента.
      */
-
     private final Date birthDate;
     /**
      * Закончил ли студент обучение.
@@ -90,7 +87,6 @@ public class Student {
      *
      * @return имя.
      */
-
     public String getFirstName() {
         return firstName;
     }

@@ -13,7 +13,7 @@ public class ConnectionUtil {
      *
      * @return объект подключения.
      */
-    static Connection getConnection() {
+    public static Connection getConnection() {
         Connection connection;
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5433/postgres",

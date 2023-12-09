@@ -1,9 +1,8 @@
 package ru.sberbank.jd.lesson12;
 
-import ru.sberbank.jd.lesson12.model.Student;
-
 import java.util.List;
 import java.util.UUID;
+import ru.sberbank.jd.lesson12.model.Student;
 
 /**
  * Позволяет выполнять CRUD операции с моделью Student.
@@ -41,7 +40,7 @@ public interface StudentsRepositoryCrud {
      * @param student измененная запись
      * @return количество обновленных записей
      */
-    int  update(Student student);
+    int update(Student student);
 
     /**
      * Удаление указанных записей по id.

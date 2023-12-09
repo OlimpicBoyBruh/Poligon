@@ -1,17 +1,15 @@
+package ru.sberbank.jd.lesson12;
+
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import ru.sberbank.jd.lesson12.StudentRepository;
 import ru.sberbank.jd.lesson12.model.Student;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
+import java.util.stream.Collectors;
 
 @Testcontainers
 public class RepositoryTest {
@@ -28,10 +26,10 @@ public class RepositoryTest {
     @Container
     private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres");
     private static Connection connection;
-    private static StudentRepository repository;
+    private StudentRepository repository = new StudentRepository(connection);
 
-    @Before
-    public void init() {
+    @BeforeClass
+    public static void init() {
         postgresContainer.start();
         String jdbcUrl = postgresContainer.getJdbcUrl();
         String username = postgresContainer.getUsername();
@@ -41,9 +39,20 @@ public class RepositoryTest {
             Database dataBase = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new JdbcConnection(connection));
             new Liquibase("db/changelog.xml", new ClassLoaderResourceAccessor(), dataBase).update();
-            repository = new StudentRepository(connection);
         } catch (SQLException | LiquibaseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Before
+    public void deleteAll() {
+        List<Student> students = repository.selectAll();
+
+        if (!students.isEmpty()) {
+            List<UUID> ids = students.stream()
+                    .map(Student::getId)
+                    .collect(Collectors.toList());
+            repository.remove(ids);
         }
     }
 
@@ -114,14 +123,11 @@ public class RepositoryTest {
         id.add(id4);
 
         Assert.assertEquals(4, repository.remove(id));
-
     }
-
 
     @AfterClass
     public static void stop() {
         postgresContainer.stop();
     }
-
 
 }

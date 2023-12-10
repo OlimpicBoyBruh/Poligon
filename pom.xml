@@ -25,10 +25,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <junit-version>4.13.2</junit-version>
-        <jackson-version>2.15.3</jackson-version>
-        <springWeb-version>2.7.5</springWeb-version>
-        <frameworkWeb-version>5.3.14</frameworkWeb-version>
-        <mockito-version>4.11.0</mockito-version>
+        <jackson.version>2.15.3</jackson.version>
+        <spring.web.version>5.3.14</spring.web.version>
+        <mockito.version>4.11.0</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -42,31 +41,25 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson-version}</version>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>${jackson-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${springWeb-version}</version>
+                <version>${jackson.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>${frameworkWeb-version}</version>
+                <version>${spring.web.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>${mockito-version}</version>
+                <version>${mockito.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

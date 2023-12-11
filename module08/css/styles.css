@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+
+}
+h1 {
+  margin-bottom: 20px;
+
+}
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+
+}
+button.add {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+}
+ol {
+  list-style-type: none;
+  padding: 0;
+text-align: left;
+}
+li {
+  margin-bottom: 10px;
+
+}
+button {
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  }

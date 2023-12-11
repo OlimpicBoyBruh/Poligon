@@ -1,44 +1,62 @@
 package ru.sberbank.jd.lesson14;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Weather cache.
+ * Кэш погоды.
  */
 public class WeatherCache {
-
+    /**
+     * Ключ - город, погода - значение.
+     */
     private final Map<String, WeatherInfo> cache = new HashMap<>();
+    /**
+     * Поставщик погоды.
+     */
     private final WeatherProvider weatherProvider;
 
     /**
-     * Constructor.
+     * Конструктор.
      *
-     * @param weatherProvider - weather provider
+     * @param weatherProvider - поставщик погоды
      */
     public WeatherCache(WeatherProvider weatherProvider) {
         this.weatherProvider = weatherProvider;
     }
 
     /**
-     * Get ACTUAL weather info for current city or null if current city not found.
-     * If cache doesn't contain weather info OR contains NOT ACTUAL info then we should download info
-     * If you download weather info then you should set expiry time now() plus 5 minutes.
-     * If you can't download weather info then remove weather info for current city from cache.
+     * Получите АКТУАЛЬНУЮ информацию о погоде для текущего города или null, если текущий город не найден.
+     * Если кэш не содержит информации о погоде ИЛИ содержит НЕ АКТУАЛЬНУЮ информацию, нам следует загрузить информацию
+     * Если вы загружаете информацию о погоде, вам следует установить время истечения срока действия сейчас() плюс 5 мин
+     * Если вы не можете загрузить информацию о погоде, удалите информацию о погоде для текущего города из кэша.
      *
-     * @param city - city
-     * @return actual weather info
+     * @param city - город
+     * @return актуальную информацию о погоде
      */
-    public WeatherInfo getWeatherInfo(String city) {
-        // should be implemented
-        return null;
+    public synchronized WeatherInfo getWeatherInfo(String city) {
+        if (city == null) {
+            return null;
+        }
+        if (!cache.containsKey(city)) {
+            cache.put(city, weatherProvider.get(city));
+            return cache.get(city);
+        } else if (cache.get(city).getExpiryTime().isAfter(LocalDateTime.now())) {
+            return cache.get(city);
+
+        } else {
+            removeWeatherInfo(city);
+            cache.put(city, weatherProvider.get(city));
+            return cache.get(city);
+        }
     }
 
     /**
-     * Remove weather info from cache.
+     * Удалите информацию о погоде из кэша.
      **/
-    public void removeWeatherInfo(String city) {
-        // should be implemented
+    public synchronized void removeWeatherInfo(String city) {
+        cache.remove(city);
     }
 }
 

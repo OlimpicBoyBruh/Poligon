@@ -12,7 +12,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
     /**
      * Array of objects.
      */
-    private Object[] item;
+    private Object[] items;
     /**
      * Number of objects in the array.
      */
@@ -22,7 +22,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Default Constructor.
      */
     public CustomArrayImpl() {
-        item = new Object[10];
+        items = new Object[10];
     }
 
     /**
@@ -34,9 +34,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (capacity < 0) {
             throw new IllegalArgumentException();
         } else if (capacity == 0) {
-            item = new Object[]{};
+            items = new Object[]{};
         } else {
-            item = new Object[capacity];
+            items = new Object[capacity];
         }
     }
 
@@ -49,19 +49,23 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (c == null) {
             throw new IllegalArgumentException();
         }
-        item = c.toArray();
+        items = c.toArray();
         size = c.size();
     }
 
     /**
-     * @return the size.
+     * the size.
+     *
+     * @return int.
      */
     public int size() {
         return size;
     }
 
     /**
-     * @return Checks if it is empty.
+     * Checks if it is empty.
+     *
+     * @return boolean.
      */
     public boolean isEmpty() {
         return size == 0;
@@ -74,8 +78,8 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @return boolean
      */
     public boolean add(T item) {
-        ensureCapacity(this.item.length * 2);
-        this.item[size] = item;
+        ensureCapacity(this.items.length * 2);
+        this.items[size] = item;
         size++;
         return true;
     }
@@ -91,10 +95,10 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (items == null) {
             throw new IllegalArgumentException();
         }
-        if ((this.item.length - size - items.length) < 0) {
-            ensureCapacity(this.item.length * 2);
+        if ((this.items.length - size - items.length) < 0) {
+            ensureCapacity(this.items.length * 2);
         }
-        System.arraycopy(items, 0, this.item, size, items.length);
+        System.arraycopy(items, 0, this.items, size, items.length);
         size += items.length;
         return true;
     }
@@ -127,10 +131,10 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (index > size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        if ((this.item.length - size - items.length) <= 0) {
-            ensureCapacity(this.item.length * 2);
+        if ((this.items.length - size - items.length) <= 0) {
+            ensureCapacity(this.items.length * 2);
         }
-        System.arraycopy(items, 0, this.item, index, items.length);
+        System.arraycopy(items, 0, this.items, index, items.length);
         size = (index + items.length > size) ? index + items.length : size;
         return true;
     }
@@ -146,7 +150,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (index >= size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        return (T) item[index];
+        return (T) items[index];
     }
 
     /**
@@ -161,8 +165,8 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (index >= size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        Object temp = this.item[index];
-        this.item[index] = item;
+        Object temp = this.items[index];
+        this.items[index] = item;
         return (T) temp;
     }
 
@@ -176,19 +180,19 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         if (index >= size || index < 0) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        Object[] temp = new String[this.item.length];
+        Object[] temp = new String[this.items.length];
         int count = size;
         int update = 0;
         int updateTemp = 0;
         while (update < count) {
             if (update != index) {
-                temp[updateTemp] = this.item[update];
+                temp[updateTemp] = this.items[update];
                 updateTemp++;
             }
             update++;
         }
         size--;
-        this.item = temp;
+        this.items = temp;
     }
 
 
@@ -196,21 +200,20 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * Remove item by value. Remove first item occurrence.
      *
      * @param item - item
-     * @return boolean depending on the removal result
      * @return true if item was removed
      */
     public boolean remove(T item) {
-        Object[] temp = new String[this.item.length];
+        Object[] temp = new String[this.items.length];
         boolean result = false;
         int index = 0;
         int indexTemp = 0;
         int count = size;
         while (index < count) {
             if (result) {
-                temp[indexTemp] = this.item[index];
+                temp[indexTemp] = this.items[index];
                 indexTemp++;
-            } else if (!this.item[index].equals(item)) {
-                temp[indexTemp] = this.item[index];
+            } else if (!this.items[index].equals(item)) {
+                temp[indexTemp] = this.items[index];
                 indexTemp++;
             } else {
                 result = true;
@@ -218,7 +221,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
             }
             index++;
         }
-        this.item = temp;
+        this.items = temp;
         return result;
     }
 
@@ -229,7 +232,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @return true or false depending on the result of the check
      */
     public boolean contains(T item) {
-        for (Object o : this.item) {
+        for (Object o : this.items) {
             if (item.equals(o)) {
                 return true;
             }
@@ -245,7 +248,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      */
     public int indexOf(T item) {
         for (int index = 0; index < size; index++) {
-            if (Objects.equals(this.item[index], item)) {
+            if (Objects.equals(this.items[index], item)) {
                 return index;
             }
         }
@@ -258,15 +261,15 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @param newElementsCount - new elements count
      */
     public void ensureCapacity(int newElementsCount) {
-        if (newElementsCount < 0) {
+        if (newElementsCount <= 0) {
             throw new IllegalArgumentException();
         }
-        if (size == item.length) {
+        if (size == items.length) {
             Object[] tempItem = new Object[newElementsCount];
             if (size >= 0) {
-                System.arraycopy(item, 0, tempItem, 0, size);
+                System.arraycopy(items, 0, tempItem, 0, size);
             }
-            item = tempItem;
+            items = tempItem;
         }
     }
 
@@ -276,7 +279,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @return int capacity
      */
     public int getCapacity() {
-        return item.length;
+        return items.length;
     }
 
     /**
@@ -285,9 +288,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
     public void reverse() {
         int tempSize = size;
         for (int index = 0; index < size / 2; index++) {
-            T temp = (T) item[tempSize - 1];
-            item[tempSize - 1] = item[index];
-            item[index] = temp;
+            T temp = (T) items[tempSize - 1];
+            items[tempSize - 1] = items[index];
+            items[index] = temp;
             tempSize--;
         }
     }
@@ -302,14 +305,22 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      */
     @Override
     public String toString() {
-        Object[] tempArray = toArray();
-        return Arrays.toString(tempArray);
+        if (size == 0) {
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (int i = 0; i < size - 1; i++) {
+            sb.append(items[i]).append(", ");
+        }
+        sb.append(items[size - 1]).append(']');
+        return sb.toString();
     }
 
     /**
      * Get copy of current array.
      */
     public Object[] toArray() {
-        return Arrays.copyOf(item, size);
+        return Arrays.copyOf(items, size);
     }
 }

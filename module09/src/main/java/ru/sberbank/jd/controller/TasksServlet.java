@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.sberbank.jd.controller.input.Task;
-import ru.sberbank.jd.repository.RepositoryTasks;
+import ru.sberbank.jd.repository.TasksRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class TasksServlet extends HttpServlet {
     /**
      * Поле для хранения Task.
      */
-    private RepositoryTasks repository;
+    private TasksRepository repository;
 
     /**
      * Инициализирует поля.
@@ -37,7 +37,7 @@ public class TasksServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         this.objectMapper = new ObjectMapper();
-        this.repository = new RepositoryTasks();
+        this.repository = new TasksRepository();
     }
 
     /**

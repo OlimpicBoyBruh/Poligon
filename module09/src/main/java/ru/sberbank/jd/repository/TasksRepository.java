@@ -9,11 +9,11 @@ import java.util.UUID;
  * Репозиторий задач, имеет методы add, get, remove.
  */
 
-public class RepositoryTasks {
+public class TasksRepository {
     /**
      * Поле хранящее Tusk.
      */
-    List<Task> repository = new ArrayList<>();
+    private final List<Task> repository = new ArrayList<>();
 
     /**
      * Добавляет задачу в репозиторий.

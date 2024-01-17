@@ -1,1 +1,2 @@
-url: https://httpbin.org/get
+service:
+  url: https://httpbin.org/get

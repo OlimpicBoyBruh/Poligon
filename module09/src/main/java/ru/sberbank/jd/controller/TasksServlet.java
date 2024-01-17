@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.sberbank.jd.controller.input.Task;
 import ru.sberbank.jd.repository.TasksRepository;
+import ru.sberbank.jd.service.ManagementRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,24 +21,19 @@ import java.util.UUID;
 @WebServlet(name = "Tasks", value = {"/task"})
 public class TasksServlet extends HttpServlet {
     /**
-     * Поле для записи/чтения json формата.
+     * Объект для управления репозиторием.
      */
-    private ObjectMapper objectMapper;
-    /**
-     * Поле для хранения Task.
-     */
-    private TasksRepository repository;
+    private ManagementRepository managementRepository;
 
     /**
-     * Инициализирует поля.
+     * Инициализирует поле.
      *
      * @param config настройка.
      */
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.objectMapper = new ObjectMapper();
-        this.repository = new TasksRepository();
+        this.managementRepository = new ManagementRepository();
     }
 
     /**
@@ -49,9 +45,8 @@ public class TasksServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var id = req.getParameter("id");
-        Task task = repository.get(UUID.fromString(id));
-        String answer = objectMapper.writeValueAsString(task);
+        String id = req.getParameter("id");
+        String answer = managementRepository.getRepository(id);
 
         resp.getOutputStream().write(answer.getBytes());
         resp.getOutputStream().flush();
@@ -67,10 +62,8 @@ public class TasksServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String result = readBody(req);
+        String answer = managementRepository.postRepository(result);
 
-        Task taskInput = objectMapper.readValue(result.toString(), Task.class);
-        repository.add(taskInput);
-        String answer = objectMapper.writeValueAsString(taskInput);
 
         resp.getOutputStream().write(answer.getBytes());
         resp.getOutputStream().flush();
@@ -86,8 +79,7 @@ public class TasksServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var id = req.getParameter("id");
-        Task task = repository.remove(UUID.fromString(id));
-        String answer = objectMapper.writeValueAsString(task);
+        String answer = managementRepository.DelFromRepository(id);
 
         resp.getOutputStream().write(answer.getBytes());
         resp.getOutputStream().flush();

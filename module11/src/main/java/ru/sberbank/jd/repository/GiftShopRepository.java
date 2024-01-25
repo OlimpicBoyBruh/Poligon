@@ -3,7 +3,9 @@ package ru.sberbank.jd.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.sberbank.jd.model.Gift;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,7 +48,7 @@ public class GiftShopRepository implements GiftsRepository {
      * Обновляет цену подарка по заданному артикулу.
      *
      * @param article артикул.
-     * @param price новая цена.
+     * @param price   новая цена.
      * @return обновленный подарок.
      */
     @Override
@@ -66,5 +68,15 @@ public class GiftShopRepository implements GiftsRepository {
     public Gift remove(String article) {
         log.info("Invoke remove," + getByArticle(article));
         return storage.remove(article);
+    }
+
+    /**
+     * Возвращает все подарки.
+     *
+     * @return список подарков.
+     */
+    @Override
+    public List<Gift> catalog() {
+        return new ArrayList<>(storage.values());
     }
 }

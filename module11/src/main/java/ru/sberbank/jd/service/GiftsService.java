@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.sberbank.jd.controller.input.GiftInput;
 import ru.sberbank.jd.model.Gift;
 import ru.sberbank.jd.repository.GiftsRepository;
+import java.util.List;
 
 /**
  * Класс для взаимодействия с репозиторием.
@@ -66,5 +67,14 @@ public class GiftsService {
      */
     public Gift selling(String article) {
         return giftsRepository.remove(article);
+    }
+
+    /**
+     * Возвращает все подарки из репозитория.
+     *
+     * @return список подарков.
+     */
+    public List<Gift> getAllGift() {
+        return giftsRepository.catalog();
     }
 }

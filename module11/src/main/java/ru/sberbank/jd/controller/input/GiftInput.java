@@ -15,4 +15,9 @@ public class GiftInput {
      * Содержимое подарка.
      */
     private String content;
+
+    public GiftInput(double price, String content) {
+        this.price = price;
+        this.content = content;
+    }
 }

@@ -2,6 +2,8 @@ package ru.sberbank.jd.repository;
 
 import ru.sberbank.jd.model.Gift;
 
+import java.util.List;
+
 /**
  * Репозиторий подарков.
  */
@@ -32,4 +34,6 @@ public interface GiftsRepository extends Repository<Gift> {
      * @return проданный подарок.
      */
     Gift remove(String article);
+
+    List<Gift> catalog();
 }

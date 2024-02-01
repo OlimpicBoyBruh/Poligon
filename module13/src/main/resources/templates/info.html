@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список классов</title>
+</head>
+<body>
+<h1>Список классов:</h1>
+<form action="/admin/create" method="get">
+    <input type="submit" value="Добавить ученика">
+</form>
+<ul>
+    <li th:each="item : ${list}">
+        <span th:text="${item}"></span>
+        <form th:action="@{/info/infoclass/}" method="get">
+            <input type="hidden" th:name="class" th:value="${item.getClassNumber()}" />
+            <button type="submit" th:href="@{'/infoclass/' + ${item.getClassNumber()}}">Показать список</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

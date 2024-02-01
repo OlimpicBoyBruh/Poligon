@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Панель управления</title>
+</head>
+<body>
+<h1>Добавление ученика:</h1>
+<form action="/admin/add" method="post">
+    <label for="firstName">Имя:</label>
+    <input type="text" id="firstName" name="firstName"><br><br>
+    <label for="lastName">Фамилия:</label>
+    <input type="text" id="lastName" name="lastName"><br><br>
+    <label for="classNumber">Номер класса:</label>
+    <input type="text" id="classNumber" name="classNumber"><br><br>
+    <input type="submit" value="Добавить ученика">
+</form>
+</body>
+</html>

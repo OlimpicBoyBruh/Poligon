@@ -111,6 +111,9 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
      * @throws IllegalArgumentException if parameter items is null
      */
     public boolean addAll(Collection<T> items) {
+        if (items == null) {
+            throw new IllegalArgumentException();
+        }
         addAll((T[]) items.toArray());
         return true;
     }
@@ -266,9 +269,7 @@ public class CustomArrayImpl<T> implements CustomArray<T> {
         }
         if (size == items.length) {
             Object[] tempItem = new Object[newElementsCount];
-            if (size >= 0) {
-                System.arraycopy(items, 0, tempItem, 0, size);
-            }
+            System.arraycopy(items, 0, tempItem, 0, size);
             items = tempItem;
         }
     }

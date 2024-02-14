@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.sberbank.jd</groupId>
@@ -20,6 +20,10 @@
         <module>lesson14</module>
         <module>module08</module>
         <module>module09</module>
+        <module>module10</module>
+        <module>module11</module>
+        <module>module12</module>
+        <module>module13</module>
     </modules>
 
     <properties>
@@ -31,7 +35,7 @@
         <jakarta.servlet-version>6.0.0</jakarta.servlet-version>
         <lombok-version>1.18.30</lombok-version>
         <spring.web.version>5.3.14</spring.web.version>
-        <mockito.version>4.11.0</mockito.version>
+        <mockito.version>5.6.0</mockito.version>
     </properties>
 
     <dependencyManagement>
@@ -39,7 +43,13 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit-version}</version>
+                <version>${junit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
             </dependency>
 
             <dependency>
@@ -77,8 +87,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok-version}</version>
             </dependency>
-
-
         </dependencies>
     </dependencyManagement>
 
@@ -117,7 +125,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
     </build>
-
 </project>

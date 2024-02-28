@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список учеников</title>
+</head>
+<body>
+<h1>Список учеников:</h1>
+<ul>
+    <li th:each="item : ${classList}" th:text="${item}"></li>
+</ul>
+<br>
+<form th:action="@{/info}" method="get">
+    <input type="hidden" th:name="class" th:value="${item}" />
+    <button type="submit" th:href="@{'/info' + ${item}}">Назад</button>
+</form>
+</body>
+</html>
